@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hatchfi Link Playground</title>
+  <link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+
+<body>
+  <section class="content-holder">
+    <header>
+      <a href="https://hatchfi.co" style="text-decoration: none">
+        <div style="display: flex; align-items: center">
+          <img src="https://hatchfi.co/assets/static/logo.50d7a8d.5b8bf91d8447a809c3c4404c60e80ee8.png" align="left" />
+          <h2>Hatchfi Link Playground</h2>
+        </div>
+      </a>
+    </header>
+    <p>
+      This is a <strong>sandbox demo</strong> of Hatchfi Connect capabilities.
+      Use this as a guideline to write your own production-ready code.
+      <br />
+      Please visit the
+      <a href="https://hatchfi.co" target="_blank">Hatchfi SDK docs</a> for a
+      full API documentation and more details.
+    </p>
+
+    <button id="connect" type="button" name="button">Connect</button>
+
+    <div class="methods">
+      <h4>Other SDK methods</h4>
+      <button id="getBalance" type="button" name="button">
+        Crypto Balances
+      </button>
+      <button id="getHistory" type="button" name="button">
+        Account History
+      </button>
+      <button id="getExchangeRates" type="button" name="button">
+        Exchange Rates
+      </button>
+    </div>
+
+
+
+    <h3>Output:</h3>
+
+    <div id="output"></div>
+
+    <div id="connect-widget"></div>
+  </section>
+
+  <script>
+    window.Hatchfi;
+  </script>
+
+  <script type="text/javascript" src="../dist/hatchfi.js"></script>
+
+  <script type="text/javascript">
+    document.onreadystatechange = async () => {
+      if (document.readyState !== "complete") {
+        return;
+      }
+
+      const output = document.querySelector("#output");
+
+      // Initiate Hatchfi SDK, replace the `clientId` field with your app key generated at hatchfi.com
+      // Passing a localId in the initialization, generates a token so you don't have to.
+      // Passing in a localId is NOT required, this is only if you know the users UID at time of init.
+      const hatchfi = await Hatchfi.init({
+        clientId: "6fb511c5b5e82cb8d4c14f0ee8504c1fc9b9ed5d34a26822693926de04eab1a3",
+      });
+
+      // Bind "connect" button
+      document.querySelector("#connect").addEventListener("click", async (ev) => {
+        hatchfi.link().onConnection(async (res) => {
+          console.log(res)
+        }).onEvent(async (res) => {
+          console.log(res)
+        }).onError(err => {
+          console.log(err)
+        });
+      });
+
+      //bindOtherMethods();
+
+      // Bind buttons for the other SDK example methods [Requires a successful hatchfi.connect() first]
+      function bindOtherMethods() {
+        console.log("hatchfi", hatchfi);
+        document
+          .querySelector("#getBalance")
+          .addEventListener("click", (ev) => {
+            // Get ETH balance
+            console.log(hatchfi.accounts
+              .getList())
+          });
+
+        document
+          .querySelector("#getHistory")
+          .addEventListener("click", (ev) => {
+            // Get account transactions history
+            hatchfi.transactions
+              .getList({ ticker: "ETH" })
+              .then((history) => {
+                printOutput(history);
+              })
+              .catch((error) => {
+                /* User has not yet connected */
+                printOutput(error);
+              });
+          });
+
+        document
+          .querySelector("#getExchangeRates")
+          .addEventListener("click", (ev) => {
+            // Get crypto USD exchange rates
+            hatchfi.currencies
+              .getExchangeRates()
+              .then((rates) => {
+                printOutput(rates);
+              })
+              .catch((error) => {
+                /* Something went wrong */
+                printOutput(error);
+              });
+          });
+      }
+
+      // Output print helper function
+      function printOutput(obj) {
+        output.innerHTML = `<pre>${JSON.stringify(obj, null, 2)}</pre>`;
+      }
+    };
+  </script>
+</body>
+
+</html>

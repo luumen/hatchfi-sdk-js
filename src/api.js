@@ -52,7 +52,7 @@ class API {
     // Build Link url
     let url = `${this.linkURL}/?client_id=${clientId}&token=${
       token ||
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhbF9pZCI6IjAwMDQiLCJpYXQiOjE2NDc1NzEyNTksImV4cCI6MTY0NzU3ODQ1OX0.YmmKGznrjSkkOwuQ5FXieG1YPPGbrnzTpdhNuo_yCqU"
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhbF9pZCI6IjAwMDQiLCJpYXQiOjE2NDc2MjU3NzAsImV4cCI6MTY0NzYzMjk3MH0.HS8ymoN4LAF5rGM3K4PKevq4PoEp9oOBUagAwGrFgvA"
     }`;
 
     this.iframe = utils.hatchfiIframe();

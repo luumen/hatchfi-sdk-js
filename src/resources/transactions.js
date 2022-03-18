@@ -17,7 +17,7 @@ class Transactions {
    */
   async getOne(name) {
     if (!id || typeof id !== "string") {
-      throw new Error("Please provide a valid Vezgo provider id.");
+      throw new Error("Please provide a valid Hatchfi provider id.");
     }
 
     const response = await this.api.get(`/providers/${id}`);

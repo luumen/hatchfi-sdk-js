@@ -4,9 +4,9 @@ const constants = require("./constants");
 const axios = require("axios");
 const SDKError = require("./error");
 
-const CALLBACK_CONNECTION = "_onConnection";
-const CALLBACK_ERROR = "_onError";
-const CALLBACK_EVENT = "_onEvent";
+const CALLBACK_SUCCESS = "onSuccess";
+const CALLBACK_ERROR = "onError";
+const CALLBACK_EVENT = "onEvent";
 
 class API {
   constructor(config) {
@@ -66,14 +66,14 @@ class API {
     return this;
   }
 
-  onConnection(fn) {
+  onSuccess(fn) {
     if (typeof fn !== "function")
       throw new SDKError(
         500,
-        "Hatchfi onConnection: Callback requires a function"
+        "Hatchfi onSuccess: Callback requires a function"
       );
 
-    this[CALLBACK_CONNECTION] = fn.bind(this);
+    this[CALLBACK_SUCCESS] = fn.bind(this);
     return this;
   }
 
@@ -103,7 +103,7 @@ class API {
 
     switch (data.result.status) {
       case "success": {
-        this._triggerCallback(CALLBACK_CONNECTION, data.result.data);
+        this._triggerCallback(CALLBACK_SUCCESS, data.result.data);
         break;
       }
 
@@ -143,13 +143,11 @@ class API {
     }, 5 * 60 * 1000);
 
     const watcher = setInterval(() => {
-      console.log("modal is open and listening");
       if (this._modalOpen) {
         if (this.modal.closed) {
           this._closeLink();
         }
       } else {
-        console.log("modal is closed, removing listeners");
         this._removeListeners();
         clearInterval(watcher);
         clearTimeout(linkTimeout);
@@ -168,9 +166,7 @@ class API {
   }
 
   _triggerCallback(fn, data = {}) {
-    if ([CALLBACK_CONNECTION, CALLBACK_ERROR].includes(fn)) {
-      this._modalOpen = false;
-
+    if ([CALLBACK_SUCCESS, CALLBACK_ERROR].includes(fn)) {
       if (this._modalOpen) {
         this._modalOpen = false;
 
@@ -179,7 +175,6 @@ class API {
 
       return;
     }
-
     if (fn === CALLBACK_EVENT && this[fn]) {
       this[fn](fn.event, data.data);
     }

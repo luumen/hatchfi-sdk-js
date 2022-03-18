@@ -76,7 +76,7 @@
       // Bind "connect" button
       document.querySelector("#connect").addEventListener("click", async (ev) => {
         hatchfi.link().onConnection(async (res) => {
-          console.log(res)
+          console.log("TEST!")
         }).onEvent(async (res) => {
           console.log(res)
         }).onError(err => {

@@ -4,9 +4,9 @@ const constants = require("./constants");
 const axios = require("axios");
 const SDKError = require("./error");
 
-const CALLBACK_CONNECTION = "onConnection";
-const CALLBACK_ERROR = "onError";
-const CALLBACK_EVENT = "onEvent";
+const CALLBACK_CONNECTION = "_onConnection";
+const CALLBACK_ERROR = "_onError";
+const CALLBACK_EVENT = "_onEvent";
 
 class API {
   constructor(config) {
@@ -52,7 +52,7 @@ class API {
     // Build Link url
     let url = `${this.linkURL}/?client_id=${clientId}&token=${
       token ||
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhbF9pZCI6IjAwMDQiLCJpYXQiOjE2NDc1NTc5MzUsImV4cCI6MTY0NzU2NTEzNX0.qUKRADqnz7d4t7PkiBln-hLfugVNw_FSprUTRUE_RAY"
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhbF9pZCI6IjAwMDQiLCJpYXQiOjE2NDc1NzEyNTksImV4cCI6MTY0NzU3ODQ1OX0.YmmKGznrjSkkOwuQ5FXieG1YPPGbrnzTpdhNuo_yCqU"
     }`;
 
     this.iframe = utils.hatchfiIframe();
@@ -73,8 +73,6 @@ class API {
         "Hatchfi onConnection: Callback requires a function"
       );
 
-    console.log("Anything? onConnection");
-
     this[CALLBACK_CONNECTION] = fn.bind(this);
     return this;
   }
@@ -82,7 +80,6 @@ class API {
   onError(fn) {
     if (typeof fn !== "function")
       throw new SDKError(500, "Hatchfi onError: Callback requires a function");
-    console.log("Anything? onError");
 
     this[CALLBACK_ERROR] = fn.bind(this);
     return this;
@@ -92,56 +89,35 @@ class API {
     if (typeof fn !== "function")
       throw new SDKError(500, "Hatchfi onEvent: Callback requires a function");
 
-    console.log("Anything? onEvent");
-
     this[CALLBACK_EVENT] = fn.bind(this);
     return this;
   }
 
   _onMessage({ origin, data }) {
-    console.log("onMessage");
-    let result = data;
-
-    try {
-      result = JSON.parse(data);
-    } catch (err) {
-      console.log(err);
+    if (
+      origin !== this.config.linkURL &&
+      !/\.hatchfi\.co$/.test(new URL(origin).hostname)
+    ) {
+      throw new Error(`Calling Hatchfi from unauthorized origin: ${origin}`);
     }
 
-    console.log(result);
-    console.log(origin);
-
-    // Skip if not a Vezgo message
-    //if (!result.vezgo) return;
-
-    // if (
-    //   origin !== this.config.connectURL &&
-    //   !/\.hatchfi\.co$/.test(new URL(origin).hostname)
-    // ) {
-    //   throw new Error(`Calling Hatchfi from unauthorized origin: ${origin}`);
-    // }
-
-    switch (result.status) {
+    switch (data.result.status) {
       case "success": {
-        // Connection success
-        this._triggerCallback(CALLBACK_CONNECTION, result.account);
+        this._triggerCallback(CALLBACK_CONNECTION, data.result.data);
         break;
       }
 
       case "error": {
-        // Connection error
-        this._triggerCallback(CALLBACK_ERROR, result.error);
+        this._triggerCallback(CALLBACK_ERROR, data.result.data);
         break;
       }
 
       case "close": {
-        // Widget closed by user action, close right away
         this._closeLink();
         break;
       }
 
       default: {
-        // Other events throughout the connection process
         this._triggerCallback(CALLBACK_EVENT, result);
       }
     }
@@ -192,7 +168,6 @@ class API {
   }
 
   _triggerCallback(fn, data = {}) {
-    console.log("triggerCallback");
     if ([CALLBACK_CONNECTION, CALLBACK_ERROR].includes(fn)) {
       this._modalOpen = false;
 

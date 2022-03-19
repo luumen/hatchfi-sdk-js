@@ -32,12 +32,36 @@ class API {
     const resources = enableResources(this.axios, ["providers"]);
     Object.assign(this, resources);
 
-    // If a local_id is passed in here, we want to authenticate that user and generate a token for them.
-    const { localId } = this.config;
+    // If a localId is passed in here, we want to authenticate that user and generate a token for them.
+    const { apiKey, secretKey } = this.config;
 
-    if (localId) console.log("this user needs a token generated with /login");
+    if (apiKey) return this.auth(apiKey, secretKey);
 
     return this;
+  }
+
+  auth(apiKey, secretKey) {
+    if (utils.isNode() && (!apiKey || typeof apiKey !== "string")) {
+      throw new SDKError(500, "Hatchfi: LocalId is invalid");
+    }
+
+    // create a authed api
+    const authAPI = axios.create({
+      baseURL: this.baseURL,
+    });
+
+    const authedUser = new API({ ...this.config });
+    authedUser.init();
+    authedUser.api = authAPI;
+
+    const authedResources = enableResources(authedUser, [
+      "providers",
+      "accounts",
+      "transactions",
+    ]);
+    Object.assign(authedUser, authedResources);
+
+    return authedUser;
   }
 
   link() {

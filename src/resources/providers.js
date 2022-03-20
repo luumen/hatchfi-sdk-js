@@ -8,9 +8,7 @@ class Providers {
    * @returns an array of provider objects
    */
   async getAll() {
-    //console.log(await this.api.get("/providers"));
     const response = await this.api.get("/providers");
-    //if (!response.ok) throw response.originalError;
     return response.data;
   }
 

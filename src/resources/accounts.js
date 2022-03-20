@@ -1,6 +1,6 @@
 class Accounts {
   constructor(api) {
-    this.api = api.api;
+    this.api = api;
   }
 
   async getAll(local_id) {

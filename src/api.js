@@ -16,13 +16,27 @@ class API {
     this.linkURL = constants.LINK_URL;
     this.axios = axios.create();
     this.axios.defaults.baseURL = this.baseURL;
-    const { clientId } = this.config;
+    const { clientId, apiKey, secretKey } = this.config;
 
     if (!clientId || typeof clientId !== "string")
       throw new SDKError(
         500,
         "Hatchfi: No ClientId was found, please pass one when initializing Hatchfi."
       );
+
+    if (utils.isNode()) {
+      if (
+        !apiKey ||
+        typeof apiKey !== "string" ||
+        !secretKey ||
+        typeof secretKey !== "string"
+      ) {
+        throw new SDKError(
+          500,
+          "Hatchfi: Hatchfi requires an API key and secret key."
+        );
+      }
+    }
 
     this._onModalMessage = this._onMessage.bind(this);
     this._modalOpen = false;
@@ -41,18 +55,15 @@ class API {
   }
 
   auth(apiKey, secretKey) {
-    if (utils.isNode() && (!apiKey || typeof apiKey !== "string")) {
-      throw new SDKError(500, "Hatchfi: LocalId is invalid");
+    console.log("um");
+    if (utils.isNode()) {
+      throw new SDKError(
+        500,
+        "Hatchfi: This method cannot be called in the browser"
+      );
     }
 
-    // create a authed api
-    const authAPI = axios.create({
-      baseURL: this.baseURL,
-    });
-
     const authedUser = new API({ ...this.config });
-    authedUser.init();
-    authedUser.api = authAPI;
 
     const authedResources = enableResources(authedUser, [
       "providers",
@@ -60,6 +71,9 @@ class API {
       "transactions",
     ]);
     Object.assign(authedUser, authedResources);
+
+    authedUser.config.apiKey = apiKey;
+    authedUser.config.secretKey = secretKey;
 
     return authedUser;
   }

@@ -49,21 +49,35 @@ class API {
     // If a localId is passed in here, we want to authenticate that user and generate a token for them.
     const { apiKey, secretKey } = this.config;
 
-    if (apiKey) return this.auth(apiKey, secretKey);
+    if (apiKey && secretKey) return this.auth(apiKey, secretKey);
 
     return this;
   }
 
-  auth(apiKey, secretKey) {
-    console.log("um");
-    if (utils.isNode()) {
+  auth(localId) {
+    if (utils.isBrowser()) {
       throw new SDKError(
         500,
         "Hatchfi: This method cannot be called in the browser"
       );
     }
 
+    const { apiKey, secretKey } = this.config;
+
     const authedUser = new API({ ...this.config });
+    authedUser.authApi = axios.create({
+      baseURL: this.baseURL,
+      timeout: 60000,
+      headers: {
+        "X-Hatchfi-Api": apiKey,
+        "X-Hatchfi-Secret": secretKey,
+        "X-Hatchfi-Local": localId,
+      },
+    });
+
+    authedUser.config.apiKey = apiKey;
+    authedUser.config.secretKey = secretKey;
+    authedUser.localId = localId;
 
     const authedResources = enableResources(authedUser, [
       "providers",
@@ -71,9 +85,6 @@ class API {
       "transactions",
     ]);
     Object.assign(authedUser, authedResources);
-
-    authedUser.config.apiKey = apiKey;
-    authedUser.config.secretKey = secretKey;
 
     return authedUser;
   }
@@ -90,7 +101,7 @@ class API {
     // Build Link url
     let url = `${this.linkURL}/?client_id=${clientId}&token=${
       token ||
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhbF9pZCI6IjAwMDQiLCJpYXQiOjE2NDc2MjU3NzAsImV4cCI6MTY0NzYzMjk3MH0.HS8ymoN4LAF5rGM3K4PKevq4PoEp9oOBUagAwGrFgvA"
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhbF9pZCI6IjAwMDQiLCJpYXQiOjE2NDc4NzI5MTQsImV4cCI6MTY0Nzg4MDExNH0.Ob5fZtubLx8-kgrtpvTH03xhXrXqLAEBeWqw3CmuQIQ"
     }`;
 
     this.iframe = utils.hatchfiIframe();

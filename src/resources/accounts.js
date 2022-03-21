@@ -1,17 +1,20 @@
 class Accounts {
-  constructor(api) {
-    this.api = api;
+  constructor(auth) {
+    this.api = auth.authApi;
+    this.localId = auth.localId;
   }
 
-  async getAll(local_id) {
+  async getAll() {
     let url = "/accounts";
-    const query = getQueryString(params);
-    if (query) url = `${url}?${query}`;
 
     const response = await this.api.get(url);
-    if (!response.ok) throw response.originalError;
 
-    return response.data;
+    console.log(response);
+
+    // if (!response.ok) throw response.originalError;
+    if (!response.ok) console.log("we got a fuckin error");
+
+    //return true;
   }
 
   /**
@@ -24,7 +27,7 @@ class Accounts {
       throw new Error("Please provide a valid Hatchfi provider id.");
     }
 
-    const response = await this.api.get(`/providers/${id}`);
+    const response = await this.api.get(`/accounts/${id}`);
     if (!response.ok) throw response.originalError;
 
     return response.data;

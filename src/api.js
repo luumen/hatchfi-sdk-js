@@ -71,7 +71,7 @@ class API {
       headers: {
         "X-Hatchfi-Api": apiKey,
         "X-Hatchfi-Secret": secretKey,
-        "X-Hatchfi-Local": localId,
+        "X-Hatchfi-Local-Id": localId,
       },
     });
 
@@ -114,6 +114,8 @@ class API {
 
     return this;
   }
+
+  getToken() {}
 
   onSuccess(fn) {
     if (typeof fn !== "function")

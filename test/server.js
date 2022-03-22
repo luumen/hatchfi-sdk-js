@@ -8,9 +8,13 @@ async function start() {
     secretKey: "6e1fa74024f0153f2951ab8a3734831a517ed2ed94b0fc1f",
   });
 
-  let user = hatchfi.auth("0006");
+  let user = hatchfi.auth("0003");
 
-  console.log(await user.accounts.getAll());
+  console.log(user);
+  //console.log(await user.transactions.getAll());
+  // console.log(
+  //   await user.accounts.getOne("8d24ea39-c9e3-474f-9193-426d91484a48")
+  // );
 }
 
 start();

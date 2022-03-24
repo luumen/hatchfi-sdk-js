@@ -11,10 +11,9 @@ async function start() {
   let user = hatchfi.auth("0003");
 
   console.log(user);
-  //console.log(await user.transactions.getAll());
-  // console.log(
-  //   await user.accounts.getOne("8d24ea39-c9e3-474f-9193-426d91484a48")
-  // );
+  console.log(
+    await user.transactions.getAll("a2f736ae-46c0-4b96-8cf6-234e29059141")
+  );
 }
 
 start();

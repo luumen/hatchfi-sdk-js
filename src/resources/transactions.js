@@ -1,6 +1,7 @@
 class Transactions {
-  constructor(api) {
-    this.api = api.api;
+  constructor(auth) {
+    this.api = auth.authApi;
+    this.localId = auth.localId;
   }
 
   /**
@@ -8,11 +9,13 @@ class Transactions {
    *
    * @returns an array of transaction objects
    */
-  async getAll() {
+  async getAll(account_id) {
     let url = "/transactions";
 
     try {
-      const response = await this.api.get(url);
+      const response = await this.api.get(
+        "/accounts/" + account_id + "/transactions"
+      );
       return response.data;
     } catch (error) {
       return error;

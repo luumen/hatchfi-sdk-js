@@ -1,7 +1,7 @@
 class Transactions {
   constructor(auth) {
     this.api = auth.authApi;
-    this.localId = auth.localId;
+    this.userId = auth.userId;
   }
 
   /**

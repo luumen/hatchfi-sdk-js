@@ -38,6 +38,13 @@ class API {
       }
     }
 
+    if (utils.isBrowser()) {
+      // we want to collect: ClientId, AuthUrl, and UserId
+      this.config.authUrl = this.config.authUrl;
+      this.config.userId = this.config.userId;
+      this.token = "";
+    }
+
     this._onModalMessage = this._onMessage.bind(this);
     this._modalOpen = false;
   }
@@ -46,7 +53,7 @@ class API {
     const resources = enableResources(this.axios, ["providers"]);
     Object.assign(this, resources);
 
-    // If a localId is passed in here, we want to authenticate that user and generate a token for them.
+    // If a userId is passed in here, we want to authenticate that user and generate a token for them.
     const { apiKey, secretKey } = this.config;
 
     if (apiKey && secretKey) return this.auth(apiKey, secretKey);
@@ -54,7 +61,7 @@ class API {
     return this;
   }
 
-  auth(localId) {
+  auth(userId) {
     if (utils.isBrowser()) {
       throw new SDKError(
         500,
@@ -71,13 +78,13 @@ class API {
       headers: {
         "X-Hatchfi-Api": apiKey,
         "X-Hatchfi-Secret": secretKey,
-        "X-Hatchfi-Local-Id": localId,
+        "X-Hatchfi-Local-Id": userId,
       },
     });
 
     authedUser.config.apiKey = apiKey;
     authedUser.config.secretKey = secretKey;
-    authedUser.localId = localId;
+    authedUser.userId = userId;
 
     const authedResources = enableResources(authedUser, [
       "providers",
@@ -115,7 +122,15 @@ class API {
     return this;
   }
 
-  getToken() {}
+  getToken() {
+    // Get token requires the auth'd API
+    // We need this to look for the config, authURL, that will generate a token for frontend usage...
+    // If we're inside the browser, we want to make a call to the authU
+    if (utils.isBrowser()) {
+      console.log(this.config.authUrl);
+      // we need to make a request to the authUrl and return the token from that request to the user.
+    }
+  }
 
   onSuccess(fn) {
     if (typeof fn !== "function")

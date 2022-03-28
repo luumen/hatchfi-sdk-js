@@ -1,7 +1,7 @@
 class Accounts {
   constructor(auth) {
     this.api = auth.authApi;
-    this.localId = auth.localId;
+    this.userId = auth.userId;
   }
 
   async getAll() {

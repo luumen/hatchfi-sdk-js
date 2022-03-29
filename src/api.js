@@ -129,6 +129,19 @@ class API {
     if (utils.isBrowser()) {
       console.log(this.config.authUrl);
       // we need to make a request to the authUrl and return the token from that request to the user.
+      axios
+        .post(
+          this.config.authUrl,
+          {},
+          {
+            headers: {
+              "Hatchfi-User-Id": this.config.userId,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+        });
     }
   }
 

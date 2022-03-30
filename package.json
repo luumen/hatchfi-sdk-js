@@ -1,5 +1,5 @@
 {
-  "name": "hatchfi-sdk",
+  "name": "@hatchfi/sdk-js",
   "version": "0.0.1",
   "description": "Hatchfi JS SDK",
   "main": "index.js",
@@ -18,5 +18,17 @@
   },
   "devDependencies": {
     "webpack-cli": "^4.9.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luumen/hatchfi-sdk-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/luumen/hatchfi-sdk-js/issues"
+  },
+  "homepage": "https://github.com/luumen/hatchfi-sdk-js#readme"
 }
+

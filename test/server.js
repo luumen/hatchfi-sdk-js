@@ -3,17 +3,13 @@ const Hatchfi = require("../src/index.js");
 async function start() {
   const hatchfi = Hatchfi.init({
     clientId:
-      "6fb511c5b5e82cb8d4c14f0ee8504c1fc9b9ed5d34a26822693926de04eab1a3",
-    apiKey: "c1ff770567a34683a23f1ca078ecd10e",
-    secretKey: "6e1fa74024f0153f2951ab8a3734831a517ed2ed94b0fc1f",
+      "8bca519be0669f073a30a37458d44bf7c421334a3314ef8dade723e44159e566",
+    apiKey: "195b3222e96741b4baeb4abc1f00a939",
+    secretKey: "5df6cf0277825a4222635e55a81d901e42d7a944fa0ab587",
   });
 
   let user = hatchfi.auth("0003");
-
-  console.log(user);
-  console.log(
-    await user.transactions.getAll("a2f736ae-46c0-4b96-8cf6-234e29059141")
-  );
+  console.log(await user.generateToken());
 }
 
 start();

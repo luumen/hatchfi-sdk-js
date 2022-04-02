@@ -7,7 +7,7 @@
     "build": "npx webpack --config webpack.config.js"
   },
   "author": "Luumen Inc",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@babel/core": "^7.17.5",
     "@babel/plugin-proposal-class-properties": "^7.16.7",

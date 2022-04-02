@@ -13,7 +13,7 @@ module.exports = () => {
     // Add banner to the top of each generated chunk.
     new webpack.BannerPlugin({
       banner: `
-        @Copyright (c) 2019-present, Hatchfi & Luumen Inc. All rights reserved.
+        @Copyright (c) 2021-present, Hatchfi & Luumen Inc. All rights reserved.
         @Version: ${JSON.stringify(process.env.PACKAGE_VERSION)}
       `,
     }),

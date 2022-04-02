@@ -122,22 +122,23 @@ class API {
     return this;
   }
 
-  getToken() {
+  async getToken() {
     // Get token requires the auth'd API
     // We need this to look for the config, authURL, that will generate a token for frontend usage...
     // If we're inside the browser, we want to make a call to the authUrl
+    console.log("WTF?");
     if (utils.isBrowser()) {
       let tok = "";
-      console.log(this.config.authUrl);
+
       // we need to make a request to the authUrl and return the token from that request to the user.
-      axios
+      await axios
         .post(this.config.authUrl, { userId: this.config.userId })
         .then((res) => {
           console.log(res);
-          tok = res;
+          tok = res.data.token;
         });
+      return tok;
     }
-    return tok;
   }
 
   async generateToken() {

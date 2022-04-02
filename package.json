@@ -1,8 +1,8 @@
 {
   "name": "@hatchfi/sdk-js",
-  "version": "0.0.3",
+  "version": "0.0.37",
   "description": "Hatchfi JS SDK",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "npx webpack --config webpack.config.js"
   },

@@ -19,22 +19,11 @@ class API {
     const { clientId, apiKey, secretKey } = this.config;
 
     if (!clientId || typeof clientId !== "string")
-      throw new SDKError(
-        500,
-        "Hatchfi: No ClientId was found, please pass one when initializing Hatchfi."
-      );
+      throw new SDKError(500, "Hatchfi: No ClientId was found, please pass one when initializing Hatchfi.");
 
     if (utils.isNode()) {
-      if (
-        !apiKey ||
-        typeof apiKey !== "string" ||
-        !secretKey ||
-        typeof secretKey !== "string"
-      ) {
-        throw new SDKError(
-          500,
-          "Hatchfi: Hatchfi requires an API key and secret key."
-        );
+      if (!apiKey || typeof apiKey !== "string" || !secretKey || typeof secretKey !== "string") {
+        throw new SDKError(500, "Hatchfi: Hatchfi requires an API key and secret key.");
       }
     }
 
@@ -63,10 +52,7 @@ class API {
 
   auth(userId) {
     if (utils.isBrowser()) {
-      throw new SDKError(
-        500,
-        "Hatchfi: This method cannot be called in the browser"
-      );
+      throw new SDKError(500, "Hatchfi: This method cannot be called in the browser");
     }
 
     const { apiKey, secretKey } = this.config;
@@ -78,7 +64,7 @@ class API {
       headers: {
         "X-Hatchfi-Api": apiKey,
         "X-Hatchfi-Secret": secretKey,
-        "X-Hatchfi-Local-Id": userId,
+        "X-Hatchfi-User-Id": userId,
       },
     });
 
@@ -86,30 +72,19 @@ class API {
     authedUser.config.secretKey = secretKey;
     authedUser.userId = userId;
 
-    const authedResources = enableResources(authedUser, [
-      "providers",
-      "accounts",
-      "transactions",
-    ]);
+    const authedResources = enableResources(authedUser, ["providers", "accounts", "transactions"]);
     Object.assign(authedUser, authedResources);
 
     return authedUser;
   }
 
   link() {
-    if (utils.isNode())
-      throw new SDKError(
-        500,
-        "Hatchfi: Hatchfi Link is only available in browsers."
-      );
+    if (utils.isNode()) throw new SDKError(500, "Hatchfi: Hatchfi Link is only available in browsers.");
 
     const { clientId, token } = this.config;
 
     // Build Link url
-    let url = `${this.linkURL}/?client_id=${clientId}&token=${
-      token ||
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhbF9pZCI6IjAwMDQiLCJpYXQiOjE2NDc4NzI5MTQsImV4cCI6MTY0Nzg4MDExNH0.Ob5fZtubLx8-kgrtpvTH03xhXrXqLAEBeWqw3CmuQIQ"
-    }`;
+    let url = `${this.linkURL}/?client_id=${clientId}&token=${token}`;
 
     this.iframe = utils.hatchfiIframe();
     this.modal = window.open(url, this.iframe.name);
@@ -126,23 +101,19 @@ class API {
     // Get token requires the auth'd API
     // We need this to look for the config, authURL, that will generate a token for frontend usage...
     // If we're inside the browser, we want to make a call to the authUrl
-    console.log("WTF?");
     if (utils.isBrowser()) {
       let tok = "";
 
       // we need to make a request to the authUrl and return the token from that request to the user.
-      await axios
-        .post(this.config.authUrl, { userId: this.config.userId })
-        .then((res) => {
-          console.log(res);
-          tok = res.data.token;
-        });
+      await axios.post(this.config.authUrl, { userId: this.config.userId }).then((res) => {
+        console.log(res);
+        tok = res.data.token;
+      });
       return tok;
     }
   }
 
   async generateToken() {
-    console.log("TEST GEN TOK");
     let tok = "";
     if (utils.isNode()) {
       await axios
@@ -166,37 +137,28 @@ class API {
   }
 
   onSuccess(fn) {
-    if (typeof fn !== "function")
-      throw new SDKError(
-        500,
-        "Hatchfi onSuccess: Callback requires a function"
-      );
+    if (typeof fn !== "function") throw new SDKError(500, "Hatchfi onSuccess: Callback requires a function");
 
     this[CALLBACK_SUCCESS] = fn.bind(this);
     return this;
   }
 
   onError(fn) {
-    if (typeof fn !== "function")
-      throw new SDKError(500, "Hatchfi onError: Callback requires a function");
+    if (typeof fn !== "function") throw new SDKError(500, "Hatchfi onError: Callback requires a function");
 
     this[CALLBACK_ERROR] = fn.bind(this);
     return this;
   }
 
   onEvent(fn) {
-    if (typeof fn !== "function")
-      throw new SDKError(500, "Hatchfi onEvent: Callback requires a function");
+    if (typeof fn !== "function") throw new SDKError(500, "Hatchfi onEvent: Callback requires a function");
 
     this[CALLBACK_EVENT] = fn.bind(this);
     return this;
   }
 
   _onMessage({ origin, data }) {
-    if (
-      origin !== this.config.linkURL &&
-      !/\.hatchfi\.co$/.test(new URL(origin).hostname)
-    ) {
+    if (origin !== this.config.linkURL && !/\.hatchfi\.co$/.test(new URL(origin).hostname)) {
       throw new Error(`Calling Hatchfi from unauthorized origin: ${origin}`);
     }
 
@@ -236,10 +198,10 @@ class API {
   }
 
   _watchLink() {
-    // 5 minute time out for Link
+    // 10 minute time out for Link
     const linkTimeout = setTimeout(() => {
       this._closeLink();
-    }, 5 * 60 * 1000);
+    }, 10 * 60 * 1000);
 
     const watcher = setInterval(() => {
       if (this._modalOpen) {

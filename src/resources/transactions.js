@@ -13,9 +13,7 @@ class Transactions {
     let url = "/transactions";
 
     try {
-      const response = await this.api.get(
-        "/accounts/" + account_id + "/transactions"
-      );
+      const response = await this.api.get("/accounts/" + account_id + "/transactions");
       return response.data;
     } catch (error) {
       return error;

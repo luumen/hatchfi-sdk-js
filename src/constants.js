@@ -1,6 +1,6 @@
 "use strict";
 
-const HATCHFI_BASE_URL = "https://hatchfi-dev-old.herokuapp.com";
+const HATCHFI_BASE_URL = "https://api.hatchfi.co";
 const HATCHFI_API_VERSION = "v1";
 const HATCHFI_URL = `${HATCHFI_BASE_URL}/${HATCHFI_API_VERSION}`;
 const LINK_URL = "https://link.hatchfi.co";

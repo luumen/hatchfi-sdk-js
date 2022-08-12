@@ -17,8 +17,8 @@ class Accounts {
 
   /**
    *
-   * @param {*} name - the short name of the provider, eg: ethereum or bsc
-   * @returns a provider object
+   * @param {*} accountId - the accounts id
+   * @returns an account object
    */
   async getOne(id) {
     let url = `/accounts/${id}`;
@@ -31,7 +31,51 @@ class Accounts {
     }
   }
 
-  // Need to add deleteOne and deleteAll
+  /**
+   *
+   * @param {*} accountId - the accounts id
+   * @returns a success message
+   */
+  async sync(id) {
+    let url = `/accounts/${id}/sync`;
+
+    try {
+      const response = await this.api.get(url);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  /**
+   *
+   * @returns a status message
+   */
+  async deleteAll() {
+    let url = `/accounts/delete`;
+
+    try {
+      const response = await this.api.get(url);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  /**
+   * @param {*} accountId - the accounts id
+   * @returns a status message
+   */
+  async deleteOne(id) {
+    let url = `/accounts/${id}`;
+
+    try {
+      const response = await this.api.delete(url);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 module.exports = Accounts;

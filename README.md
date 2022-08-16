@@ -31,3 +31,5 @@ When creating a project, you'll be present with your credentials:
 If you find a bug or security issue, please reach out to the team at support@luumen.io
 
 > This readme is a work in progress - please navigate to the [Hatchfi Docs](https://docs.hatchfi.co) for instructions on how to use our SDK.
+
+> For a more in-depth guide, look at our [API Code and Structure](https://luumen.github.io)

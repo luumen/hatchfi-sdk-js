@@ -1,5 +1,8 @@
 # Hatchfi JavaScript SDK
 
+> Hatchfi JavaScript SDK Version 0.0.4+ is up-to-date and ready to use with Hatchfi API V1
+> You can read more about Hatchfi API here: [Hatchfi Docs](https://docs.hatchfi.co)
+
 Hatchfi is the gold standard API for connecting with your application with exchanges, wallets and protocols like Ethereum and Solana. Implementing these technologies can be difficult for teams of all sizes, which is why we created [Hatchfi](https://hatchfi.co)!
 
 Our Developer experience and support is something that we're proud of. We want to ensure that you're able to implement Hatchfi into your product in just a few hours - if that. If'd you like more hands on support, please join our [Hatchfi Discord](https://discord.gg/hatchfi) and let us know your a developer.

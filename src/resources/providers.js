@@ -1,3 +1,6 @@
+/**
+ * Providers grants access to Hatchfi's provider data
+ */
 class Providers {
   constructor(api) {
     this.api = api;
@@ -14,7 +17,7 @@ class Providers {
 
   /**
    *
-   * @param {*} name - the short name of the provider, eg: ethereum or bsc
+   * @param {string} name - the short name of the provider, eg: ethereum or bsc
    * @returns a provider object
    */
   async getOne(name) {

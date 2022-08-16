@@ -18,7 +18,7 @@ Here are a few of our most popular providers:
 
 ### Create a Hatchfi Project
 
-In order to get your credentials, you'll need to navigaste to the [Hatchfi Dashboard](https://app.hatchfi.co/sign-up) and create an account and then a project.
+In order to get your credentials, you'll need to navigaste to the [Hatchfi Dashboard](https://app.hatchfi.co/signup) and create an account and then a project.
 
 When creating a project, you'll be present with your credentials:
 

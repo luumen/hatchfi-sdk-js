@@ -2,23 +2,15 @@
 const SDKError = require("./error");
 
 const isBrowser = () => {
-  return (
-    typeof window !== "undefined" &&
-    {}.toString.call(window) === "[object Window]"
-  );
+  return typeof window !== "undefined" && {}.toString.call(window) === "[object Window]";
 };
 
 const isReactNative = () => {
-  return (
-    typeof navigator !== "undefined" && navigator.product === "ReactNative"
-  );
+  return typeof navigator !== "undefined" && navigator.product === "ReactNative";
 };
 
 const isNode = () => {
-  return (
-    typeof global !== "undefined" &&
-    {}.toString.call(global) === "[object global]"
-  );
+  return typeof global !== "undefined" && {}.toString.call(global) === "[object global]";
 };
 
 function hatchfiIframe() {

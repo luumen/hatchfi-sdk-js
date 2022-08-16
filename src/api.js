@@ -43,9 +43,9 @@ class API {
     Object.assign(this, resources);
 
     // If a userId is passed in here, we want to authenticate that user and generate a token for them.
-    const { apiKey, secretKey } = this.config;
+    // const { apiKey, secretKey } = this.config;
 
-    if (apiKey && secretKey) return this.auth(apiKey, secretKey);
+    // if (apiKey && secretKey ) return this.auth(apiKey, secretKey);
 
     return this;
   }
@@ -84,7 +84,7 @@ class API {
     const { clientId, token } = this.config;
 
     // Build Link url
-    let url = `${this.linkURL}/?client_id=${clientId}&token=${token}`;
+    let url = `${this.linkURL}/?clientId=${clientId}&token=${token}`;
 
     this.iframe = utils.hatchfiIframe();
     this.modal = window.open(url, this.iframe.name);
@@ -106,7 +106,6 @@ class API {
 
       // we need to make a request to the authUrl and return the token from that request to the user.
       await axios.post(this.config.authUrl, { userId: this.config.userId }).then((res) => {
-        console.log(res);
         tok = res.data.token;
       });
       return tok;
@@ -131,6 +130,9 @@ class API {
         )
         .then((res) => {
           tok = res.data.token;
+        })
+        .catch((err) => {
+          tok = "error";
         });
     }
     return tok;

@@ -1,10 +1,11 @@
 {
   "name": "@hatchfi/sdk-js",
-  "version": "0.0.39",
+  "version": "0.0.4",
   "description": "Hatchfi JS SDK",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npx webpack --config webpack.config.js"
+    "build": "npx webpack --config webpack.config.js",
+    "docs": "jsdoc -c jsdocs.json"
   },
   "author": "Luumen Inc",
   "license": "MIT",
@@ -31,4 +32,3 @@
   },
   "homepage": "https://github.com/luumen/hatchfi-sdk-js#readme"
 }
-

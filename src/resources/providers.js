@@ -3,7 +3,11 @@
  */
 class Providers {
   constructor(api) {
-    this.api = api;
+    if (api.authApi) {
+      this.api = api.authApi;
+    } else {
+      this.api = api;
+    }
   }
 
   /**
@@ -25,10 +29,12 @@ class Providers {
       throw new Error("Please provide a valid Hatchfi provider name.");
     }
 
-    const response = await this.api.get(`/providers/${name}`);
-    //if (!response.ok) throw response.originalError;
-
-    return response.data;
+    try {
+      const response = await this.api.get(`/providers/${name}`);
+      return response.data;
+    } catch (error) {
+      return { error: "That provider doesn't exist" };
+    }
   }
 }
 

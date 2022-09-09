@@ -63,10 +63,10 @@ class Accounts {
     let url = `/accounts/delete`;
 
     try {
-      const response = await this.api.get(url);
+      const response = await this.api.delete(url);
       return response.data;
     } catch (error) {
-      return error;
+      return { error: "Unable to delete all accounts" };
     }
   }
 
@@ -81,7 +81,7 @@ class Accounts {
       const response = await this.api.delete(url);
       return response.data;
     } catch (error) {
-      return error;
+      return { error: "Unable to delete this account" };
     }
   }
 }

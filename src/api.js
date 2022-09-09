@@ -41,7 +41,6 @@ class API {
   init() {
     const resources = enableResources(this.axios, ["providers"]);
     Object.assign(this, resources);
-
     // If a userId is passed in here, we want to authenticate that user and generate a token for them.
     // const { apiKey, secretKey } = this.config;
 

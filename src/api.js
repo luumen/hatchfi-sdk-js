@@ -71,7 +71,7 @@ class API {
     authedUser.config.secretKey = secretKey;
     authedUser.userId = userId;
 
-    const authedResources = enableResources(authedUser, ["providers", "accounts", "transactions"]);
+    const authedResources = enableResources(authedUser, ["providers", "accounts", "transactions", "nfts", "market"]);
     Object.assign(authedUser, authedResources);
 
     return authedUser;

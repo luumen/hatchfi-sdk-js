@@ -57,6 +57,22 @@ class Accounts {
 
   /**
    *
+   * @param {string} accountId - the accounts id
+   * @returns a success message
+   */
+  async refresh(accountId) {
+    let url = `/accounts/${accountId}/refresh`;
+
+    try {
+      const response = await this.api.get(url);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  /**
+   *
    * @returns a status message
    */
   async deleteAll() {

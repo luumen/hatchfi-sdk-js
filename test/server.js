@@ -2,13 +2,16 @@ const Hatchfi = require("../src/index.js");
 
 async function start() {
   const hatchfi = Hatchfi.init({
-    clientId: "8bca519be0669f073a30a37458d44bf7c421334a3314ef8dade723e44159e566",
-    apiKey: "195b3222e96741b4baeb4abc1f00a939",
-    secretKey: "5df6cf0277825a4222635e55a81d901e42d7a944fa0ab587",
+    clientId: "7e59d0ff39d4902b5cd2b7f5f0e695167402b859c7e585562a116b45b61910a8",
+    apiKey: "ceab391bac854e86a4808c8d2a9aa73a",
+    secretKey: "92ca6ac10a7193327cb8fc8cdeb1a8d6b84530ada58815eb",
   });
 
-  let user = hatchfi.auth("0003");
-  console.log(await user.generateToken());
+  let user = await hatchfi.auth("0003");
+
+  let market = await user.market.fiatRates();
 }
 
-start();
+(async () => {
+  await start();
+})();

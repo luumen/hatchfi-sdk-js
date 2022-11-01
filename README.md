@@ -8,6 +8,8 @@ Hatchfi is the gold standard API for connecting with your application with excha
 
 Our Developer experience and support is something that we're proud of. We want to ensure that you're able to implement Hatchfi into your product in just a few hours - if that. If'd you like more hands on support, please join our [Hatchfi Discord](https://discord.gg/hatchfi) and let us know your a developer.
 
+You can read about all of our methods here in our [Hatchfi JS SDK Recipe](https://docs.hatchfi.co/recipes/hatchfi-javascript-sdk-methods)
+
 ### Hatchfi's Providers
 
 For a complete list of Hatchfi's providers, please check out our [providers page](https://hatchfi.co/providers).

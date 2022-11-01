@@ -2,6 +2,8 @@ const RESOURCES = {
   accounts: require("./accounts"),
   providers: require("./providers"),
   transactions: require("./transactions"),
+  nfts: require("./nfts"),
+  market: require("./market"),
 };
 
 module.exports = function enableResources(api, resources) {

@@ -3,6 +3,7 @@ const RESOURCES = {
   providers: require("./providers"),
   transactions: require("./transactions"),
   nfts: require("./nfts"),
+  audits: require("./audits"),
   market: require("./market"),
 };
 

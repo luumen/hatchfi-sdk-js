@@ -12,13 +12,13 @@ class Transactions {
    *
    * @returns an array of transaction objects
    */
-  async getAll(accountId) {
+  async getAll(accountId, limit = 1500, timestamp = new Date().getTime()) {
     if (!accountId || typeof accountId !== "string") {
       throw new Error("Please provide a valid Hatchfi account id.");
     }
 
     try {
-      const response = await this.api.get("/accounts/" + accountId + "/transactions");
+      const response = await this.api.get("/accounts/" + accountId + "/transactions?limit=" + limit + "&timestamp=" + timestamp);
       return response.data;
     } catch (error) {
       return error;
